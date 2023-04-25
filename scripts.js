@@ -9,8 +9,8 @@ class Despesa {
     }
 
     validarDados() {
-        for(let i in this) {
-            if(this[i] == undefined || this[i] == '' || this[i] == null) {
+        for (let i in this) {
+            if (this[i] == undefined || this[i] == '' || this[i] == null) {
                 return false
             }
         }
@@ -23,12 +23,12 @@ class Bd {
     constructor() {
         let id = localStorage.getItem('id')
 
-        if(id === null) {
+        if (id === null) {
             localStorage.setItem('id', 0)
         }
     }
 
-    getProximoId(){
+    getProximoId() {
         let proximoId = localStorage.getItem('id')
         return parseInt(proximoId) + 1
     }
@@ -46,7 +46,7 @@ class Bd {
 let bd = new Bd()
 
 function cadastrarDespesa() {
-    
+
     let ano = document.getElementById('ano')
     let mes = document.getElementById('mes')
     let dia = document.getElementById('dia')
@@ -61,13 +61,27 @@ function cadastrarDespesa() {
         tipo.value,
         descricao.value,
         valor.value)
-    
-        if (despesa.validarDados()) {
-            bd.gravar(despesa) //dialogo de sucesso
-            $('#sucessoGravacao').modal('show')
-        } else {
-            $('#erroGravacao').modal('show')    // dialogo de erro
-        }
-        
+
+    if (despesa.validarDados()) {
+        bd.gravar(despesa) //dialogo de sucesso
+
+        document.getElementById('modal_titulo').innerHTML = 'Registro inserido com sucesso'
+        document.getElementById('modal_titulo_div').className = 'modal-header text-success'
+        document.getElementById('modal_conteudo').innerHTML = 'Despesa cadastrada com sucesso!'
+        document.getElementById('modal_btn').innerHTML = 'Voltar'
+        document.getElementById('modal_btn').className = 'btn btn-success'
+
+        $('#modalRegistraDespesa').modal('show')
+    } else {
+
+        document.getElementById('modal_titulo').innerHTML = 'Erro na inclusão do registro'
+        document.getElementById('modal_titulo_div').className = 'modal-header text-danger'
+        document.getElementById('modal_conteudo').innerHTML = 'Erro na gravação, verifique se todos os campos foram preenchidos corretamente.'
+        document.getElementById('modal_btn').innerHTML = 'Voltar e Corrigir'
+        document.getElementById('modal_btn').className = 'btn btn-danger'
+
+        $('#modalRegistraDespesa').modal('show')    // dialogo de erro
+    }
+
 }
 
